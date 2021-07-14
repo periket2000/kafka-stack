@@ -1,3 +1,8 @@
+create_volumes.sh
+
+- mkdir zk{1,2,3}
+- mkdir kafka{1,2,3}
+
 We must ensure that the service names and KAFKA_BROKER_ID are unique across the services.
 
 Moreover, each service must expose a unique port to the host machine. So, although zookeeper-1 and zookeeper-2 are listening on port 2181, 

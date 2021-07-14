@@ -12,6 +12,9 @@ services:
       ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
     ports:
       - 22181:2181
+    volumes:
+      - ./zk1/log:/var/lib/zookeeper/log
+      - ./zk1/data:/var/lib/zookeeper/data
 
   zookeeper-2:
     image: confluentinc/cp-zookeeper:latest
@@ -25,6 +28,9 @@ services:
       ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
     ports:
       - 32181:2181
+    volumes:
+      - ./zk2/log:/var/lib/zookeeper/log
+      - ./zk2/data:/var/lib/zookeeper/data
   
   zookeeper-3:
     image: confluentinc/cp-zookeeper:latest
@@ -38,6 +44,9 @@ services:
       ZOOKEEPER_SERVERS: zookeeper-1:2888:3888;zookeeper-2:2888:3888;zookeeper-3:2888:3888
     ports:
       - 42181:2181
+    volumes:
+      - ./zk3/log:/var/lib/zookeeper/log
+      - ./zk3/data:/var/lib/zookeeper/data
 
   kafka-1:
     image: confluentinc/cp-kafka:latest
@@ -45,9 +54,10 @@ services:
       - zookeeper-1
       - zookeeper-2
       - zookeeper-3
-
     ports:
       - 29092:29092
+    volumes:
+      - ./kafka1:/var/lib/kafka/data
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
@@ -64,6 +74,8 @@ services:
       - zookeeper-3
     ports:
       - 39092:39092
+    volumes:
+      - ./kafka2:/var/lib/kafka/data
     environment:
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
@@ -80,6 +92,8 @@ services:
       - zookeeper-3
     ports:
       - 49092:49092
+    volumes:
+      - ./kafka3:/var/lib/kafka/data
     environment:
       KAFKA_BROKER_ID: 3
       KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181,zookeeper-3:2181
@@ -87,3 +101,4 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: DOCKER_LISTENER:PLAINTEXT,HOST_LISTENER:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER_LISTENER
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
